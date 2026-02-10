@@ -7,7 +7,6 @@ const express = require("express");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const { Server } = require("socket.io");
-const fs = require("fs");
 if (process.env.DRIVE_KEY) {
   fs.writeFileSync("drivekey.json", process.env.DRIVE_KEY);
 }

@@ -1,0 +1,25 @@
+# Node
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Capacitor
+android/build/
+android/.gradle/
+android/local.properties
+android/captures/
+
+# Android Studio
+android/.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Data
+data/*.json

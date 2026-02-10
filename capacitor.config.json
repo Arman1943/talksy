@@ -1,0 +1,9 @@
+{
+  "appId": "com.talksy.chat",
+  "appName": "Talksy",
+  "webDir": "public",
+  "server": {
+    "url": "https://liquid-oliy-talksy-1d53b15f.koyeb.app",
+    "cleartext": false
+  }
+}

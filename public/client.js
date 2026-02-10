@@ -160,16 +160,31 @@
     // prepare to accept new peers (server will tell when user-joined-voice)
     socket.off("user-joined-voice");
     socket.on("user-joined-voice", async (id) => {
-      if (peers[id]) return;
+      if (peers[id]) return; // already connected
+
+      console.log(`User ${id} joined voice. Initiating connection...`);
+
       const pc = createPeer(id);
       peers[id] = pc;
+      
+      // Determine polite/impolite for glare handling (still useful if collisions happen)
       politePeers[id] = socket.id > id;
-      localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
-      if (!politePeers[id]) {
+
+      // Add tracks
+      if (localStream) {
+        localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
+      }
+
+      // --- FIXED: ALWAYS MAKE OFFER ---
+      // Since we are the "existing" user receiving the event, we MUST welcome the new user.
+      try {
         makingOffer[id] = true;
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
         socket.emit("offer", { target: id, sdp: pc.localDescription });
+      } catch (err) {
+        console.error("Error creating offer:", err);
+      } finally {
         makingOffer[id] = false;
       }
     });
@@ -286,12 +301,17 @@
     if (!pc) {
       pc = createPeer(sender);
       peers[sender] = pc;
+      politePeers[sender] = socket.id > sender; // re-calculate polite status for this new peer
       if (localStream) localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
     }
 
     const polite = politePeers[sender];
     const collision = makingOffer[sender] || pc.signalingState !== "stable";
-    if (collision && !polite) return;
+    
+    // Ignore offer if we are impolite and busy making our own offer (glare)
+    if (collision && !polite) {
+      return;
+    }
 
     await pc.setRemoteDescription(new RTCSessionDescription(sdp));
     const answer = await pc.createAnswer();

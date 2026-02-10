@@ -1,21 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Voxly</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Voxly — Chat</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Voxly Chat</h2>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">Voxly</div>
 
-<div id="chat"></div>
+    <div class="channels">
+      <div class="channels-title">Text</div>
+      <div class="channel" data-channel="general"># general</div>
+      <div class="channel" data-channel="games"># games</div>
+      <div class="channel" data-channel="coding"># coding</div>
+    </div>
 
-<form id="sendForm">
-<input id="msg" autocomplete="off" placeholder="Type message">
-<button>Send</button>
-</form>
+    <div class="voice-section">
+      <div class="channels-title">Voice</div>
+      <div class="voice-channel" id="voiceChannel" data-room="general">🔊 General</div>
+      <div id="voiceMembers" class="voiceMembers"></div>
+      <div class="voice-controls">
+        <button id="joinVoiceBtn">Join Voice</button>
+        <button id="leaveVoiceBtn">Leave</button>
+        <button id="muteBtn">Mute</button>
+      </div>
+    </div>
+
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="channelTitle"># general</div>
+      <div id="userLabel"></div>
+    </header>
+
+    <section id="messages" class="messages"></section>
+
+    <form id="msgForm" class="msgForm">
+      <input id="msgBox" autocomplete="off" placeholder="Message #general">
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <aside class="rightbar">
+    <h3>Members</h3>
+    <div id="memberList" class="memberList"></div>
+  </aside>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="client.js"></script>
-
 </body>
 </html>

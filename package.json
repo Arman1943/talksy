@@ -9,8 +9,10 @@
     "@capacitor/android": "^8.0.2",
     "@capacitor/core": "^8.0.2",
     "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
     "express": "^4.19.2",
     "express-session": "^1.17.3",
+    "googleapis": "^171.4.0",
     "socket.io": "^4.7.5"
   }
 }

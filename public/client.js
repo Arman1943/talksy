@@ -76,6 +76,9 @@
     messagesEl.innerHTML = "";
     msgs.forEach(addMessage);
   });
+  socket.on("message-stored", () => {
+  console.log("Message saved to database");
+  });
 
   socket.on("message", addMessage);
 

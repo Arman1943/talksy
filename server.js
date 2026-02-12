@@ -8,6 +8,8 @@ const User = require("./models/User");
 const Message = require("./models/Message");
 
 const app = express();
+const cors = require("cors");
+app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server);
 

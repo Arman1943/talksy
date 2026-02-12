@@ -1,4 +1,7 @@
-const socket = io();
+const socket = io(window.location.origin, {
+  transports: ["websocket", "polling"]
+});
+
 
 /* DOM ELEMENTS */
 const loginScreen = document.getElementById("loginScreen");
@@ -21,25 +24,40 @@ let username = null;
 /* ---------- LOGIN ---------- */
 
 async function login(type){
-  const u = usernameInput.value;
-  const p = passwordInput.value;
+  const u = usernameInput.value.trim();
+  const p = passwordInput.value.trim();
 
-  const res = await fetch("/"+type,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({username:u,password:p})
-  });
+  if(!u || !p){
+    loginStatus.innerText="Enter username and password";
+    return;
+  }
 
-  if(res.ok){
-    username=u;
-    loginScreen.classList.add("hidden");
-    app.classList.remove("hidden");
+  loginStatus.innerText="Connecting...";
 
-    connectChat();
-  }else{
-    loginStatus.innerText=await res.text();
+  try{
+    const res = await fetch(window.location.origin + "/" + type,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({username:u,password:p})
+    });
+
+    const text = await res.text();
+
+    if(res.ok){
+      username=u;
+      loginScreen.classList.add("hidden");
+      app.classList.remove("hidden");
+      connectChat();
+    }else{
+      loginStatus.innerText=text;
+    }
+
+  }catch(e){
+    loginStatus.innerText="Server unreachable";
+    console.error(e);
   }
 }
+
 
 loginBtn.onclick=()=>login("login");
 registerBtn.onclick=()=>login("register");

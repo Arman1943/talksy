@@ -1,5 +1,21 @@
 const socket = io();
 
+/* DOM ELEMENTS */
+const loginScreen = document.getElementById("loginScreen");
+const app = document.getElementById("app");
+
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
+const loginStatus = document.getElementById("loginStatus");
+
+const messages = document.getElementById("messages");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const connectionState = document.getElementById("connectionState");
+
+
 let username = null;
 
 /* ---------- LOGIN ---------- */

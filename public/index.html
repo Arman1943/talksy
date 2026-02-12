@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Voxly — Chat</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Talksy</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="stylesheet" href="style.css">
+<script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
 
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">Voxly</div>
+<div id="loginScreen">
+  <div class="loginBox">
+    <h1>Talksy</h1>
 
-    <div class="channels">
-      <div class="channels-title">Text</div>
-      <div class="channel" data-channel="general"># general</div>
-      <div class="channel" data-channel="games"># games</div>
-      <div class="channel" data-channel="coding"># coding</div>
-    </div>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
 
-    <div class="voice-section">
-      <div class="channels-title">Voice</div>
-      <div class="voice-channel" id="voiceChannel" data-room="general">🔊 General</div>
-      <div id="voiceMembers" class="voiceMembers"></div>
-      <div class="voice-controls">
-        <button id="joinVoiceBtn">Join Voice</button>
-        <button id="leaveVoiceBtn">Leave</button>
-        <button id="muteBtn">Mute</button>
-      </div>
-    </div>
+    <button id="loginBtn">Login</button>
+    <button id="registerBtn">Register</button>
 
-  </aside>
-
-  <main class="main">
-    <header class="topbar">
-      <div id="channelTitle"># general</div>
-      <div id="userLabel"></div>
-    </header>
-
-    <section id="messages" class="messages"></section>
-
-    <form id="msgForm" class="msgForm">
-      <input id="msgBox" autocomplete="off" placeholder="Message #general">
-      <button type="submit">Send</button>
-    </form>
-  </main>
-
-  <aside class="rightbar">
-    <h3>Members</h3>
-    <div id="memberList" class="memberList"></div>
-  </aside>
+    <div id="loginStatus"></div>
+  </div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
+<div id="app" class="hidden">
+
+  <!-- LEFT SIDEBAR -->
+  <div id="sidebar">
+    <h2># general</h2>
+
+    <button id="joinVoice">Join Voice</button>
+    <button id="leaveVoice">Leave Voice</button>
+
+    <h3>Voice Members</h3>
+    <ul id="members"></ul>
+  </div>
+
+  <!-- CHAT -->
+  <div id="chatArea">
+
+    <div id="connectionState">Connecting...</div>
+
+    <div id="messages"></div>
+
+    <div id="typing"></div>
+
+    <div id="inputArea">
+      <input id="messageInput" placeholder="Message #general">
+      <button id="sendBtn">Send</button>
+    </div>
+
+  </div>
+
+</div>
+
 <script src="client.js"></script>
 </body>
 </html>
